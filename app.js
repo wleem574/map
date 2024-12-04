@@ -1,5 +1,5 @@
 // توكن Mapbox
-mapboxgl.accessToken = 'pk.eyJ1IjoiZG9lc3NpZ25lZCIsImEiOiJjbGZqZXYwcmowdGM1M3F0dDcxMzZvaDNnIn0.qfptn-DcMl-KON1M35V-Jg';
+mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200N3E5dnM1MDlrazJrc2RsanJtMmI3eSJ9.nwhdPLeJ1PNC-uGZzdjzKw';
 
 const map = new mapboxgl.Map({
     container: 'map', // id العنصر الذي سيحتوي على الخريطة
