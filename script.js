@@ -9,71 +9,55 @@ const firebaseConfig = {
   appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
 };
 
-// تهيئة Firebase
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// استدعاء خدمات Firebase
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// إعداد مزود تسجيل الدخول باستخدام Google
-const provider = new firebase.auth.GoogleAuthProvider();
-
-// إعداد Mapbox
-mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
-
-// إنشاء الخريطة
-const map = new mapboxgl.Map({
-  container: 'map', // عنصر الخريطة
-  style: 'mapbox://styles/mapbox/streets-v12', // النمط
-  center: [44.361488, 33.315241], // الموقع الأولي (مثال: بغداد)
-  zoom: 13 // مستوى التكبير
+// Login Functionality
+document.getElementById('login-btn').addEventListener('click', () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('service-section').style.display = 'block';
+        })
+        .catch((error) => alert(error.message));
 });
 
-// إضافة زر تحديد الموقع
-const geolocateControl = new mapboxgl.GeolocateControl({
-  positionOptions: {
-    enableHighAccuracy: true
-  },
-  trackUserLocation: true,
-  showUserHeading: true
+// Submit Service Request
+document.getElementById('submit-request').addEventListener('click', () => {
+    const serviceType = document.getElementById('service-type').value;
+    const description = document.getElementById('problem-description').value;
+    const user = auth.currentUser;
+
+    if (user) {
+        db.collection('serviceRequests').add({
+            userId: user.uid,
+            serviceType: serviceType,
+            description: description,
+            status: 'pending',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            alert('Service Request Submitted!');
+        }).catch((error) => alert(error.message));
+    }
 });
 
-map.addControl(geolocateControl);
-
-// تسجيل الدخول باستخدام Google
-document.getElementById('loginBtn').addEventListener('click', () => {
-  auth.signInWithPopup(provider)
-    .then(result => {
-      alert(`مرحبًا، ${result.user.displayName}`);
-    })
-    .catch(error => {
-      console.error("Error during login:", error);
+// Google Maps Initialization
+let map;
+function initMap() {
+    const userLocation = { lat: -34.397, lng: 150.644 }; // Default location
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: userLocation,
+        zoom: 10,
     });
-});
 
-// طلب صيانة عند الضغط على الزر
-document.getElementById('requestService').addEventListener('click', async () => {
-  const user = auth.currentUser;
-  if (!user) {
-    alert('يرجى تسجيل الدخول أولاً');
-    return;
-  }
-
-  const center = map.getCenter();
-  const requestData = {
-    latitude: center.lat,
-    longitude: center.lng,
-    uid: user.uid,
-    userName: user.displayName || "مستخدم مجهول",
-    timestamp: new Date().toISOString()
-  };
-
-  try {
-    const docRef = await db.collection("service_requests").add(requestData);
-    alert(`تم طلب الصيانة بنجاح! معرّف الطلب: ${docRef.id}`);
-  } catch (error) {
-    console.error("Error saving request:", error);
-    alert("حدث خطأ أثناء طلب الصيانة.");
-  }
-});
+    // Marker for Technician (Example)
+    const technicianMarker = new google.maps.Marker({
+        position: { lat: -34.5, lng: 150.7 },
+        map: map,
+        title: "Technician Location",
+    });
+}
