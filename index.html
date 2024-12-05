@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>طلب صيانة موقعية</title>
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/wleem574/map/main/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Maintenance App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
 </head>
 <body>
-  <div id="app">
     <header>
-      <h1>طلب صيانة موقعية</h1>
+        <h1>Car Maintenance On-Demand</h1>
     </header>
-    <div id="map"></div>
-    <button id="requestService">طلب صيانة هنا</button>
-    <button id="loginBtn">تسجيل الدخول</button>
-  </div>
+    <main>
+        <section id="login-section">
+            <h2>Login</h2>
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button id="login-btn">Login</button>
+        </section>
+        
+        <section id="service-section" style="display: none;">
+            <h2>Request a Service</h2>
+            <select id="service-type">
+                <option value="oil-change">Oil Change</option>
+                <option value="tire-replacement">Tire Replacement</option>
+                <option value="engine-check">Engine Check</option>
+            </select>
+            <textarea id="problem-description" placeholder="Describe the problem"></textarea>
+            <button id="submit-request">Submit Request</button>
+        </section>
 
-  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js" defer></script>
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js" defer></script>
-  <script src="https://raw.githubusercontent.com/wleem574/map/main/script.js" defer></script>
+        <section id="map-section" style="display: none;">
+            <h2>Track Technician</h2>
+            <div id="map" style="width: 100%; height: 400px;"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Car Maintenance App</p>
+    </footer>
+    <script src="app.js"></script>
 </body>
 </html>
