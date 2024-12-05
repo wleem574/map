@@ -1,33 +1,31 @@
-// Firebase Configuration
+// إعداد Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
-  authDomain: "drnfeez-c4037.firebaseapp.com",
-  databaseURL: "https://drnfeez-c4037-default-rtdb.firebaseio.com",
-  projectId: "drnfeez-c4037",
-  storageBucket: "drnfeez-c4037.firebasestorage.app",
-  messagingSenderId: "912450814298",
-  appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
-};
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
-// Initialize Firebase
+// تهيئة Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-// Mapbox Configuration
-mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
+// إعداد Mapbox
+mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
 
-// Create Map
+// إنشاء الخريطة
 const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v12',
-    center: [44.361488, 33.315241],
-    zoom: 13
+    container: 'map', // عنصر الخريطة
+    style: 'mapbox://styles/mapbox/streets-v12', // النمط
+    center: [44.361488, 33.315241], // الموقع الأولي (مثال: بغداد)
+    zoom: 13 // مستوى التكبير
 });
 
-// Add user location control
+// إضافة زر تحديد الموقع
 const geolocateControl = new mapboxgl.GeolocateControl({
     positionOptions: {
         enableHighAccuracy: true
@@ -37,7 +35,7 @@ const geolocateControl = new mapboxgl.GeolocateControl({
 });
 map.addControl(geolocateControl);
 
-// Authentication
+// تسجيل الدخول باستخدام Google
 document.getElementById('loginBtn').addEventListener('click', () => {
     auth.signInWithPopup(provider)
         .then(result => {
@@ -48,7 +46,7 @@ document.getElementById('loginBtn').addEventListener('click', () => {
         });
 });
 
-// Handle "Request Service" button click
+// طلب صيانة عند الضغط على الزر
 document.getElementById('requestService').addEventListener('click', async () => {
     const user = auth.currentUser;
     if (!user) {
