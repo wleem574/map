@@ -8,7 +8,6 @@ const firebaseConfig = {
   messagingSenderId: "912450814298",
   appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
 };
-};
 
 // تهيئة Firebase
 firebase.initializeApp(firebaseConfig);
@@ -16,6 +15,10 @@ firebase.initializeApp(firebaseConfig);
 // استدعاء خدمات Firebase
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+// إعداد مزود تسجيل الدخول باستخدام Google
+const provider = new firebase.auth.GoogleAuthProvider();
+
 // إعداد Mapbox
 mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
 
@@ -35,6 +38,7 @@ const geolocateControl = new mapboxgl.GeolocateControl({
     trackUserLocation: true,
     showUserHeading: true
 });
+
 map.addControl(geolocateControl);
 
 // تسجيل الدخول باستخدام Google
