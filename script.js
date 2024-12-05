@@ -1,28 +1,21 @@
 // Firebase Configuration
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
-
-// Firebase config object (Replace with your Firebase configuration)
 const firebaseConfig = {
-  apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
-  authDomain: "drnfeez-c4037.firebaseapp.com",
-  databaseURL: "https://drnfeez-c4037-default-rtdb.firebaseio.com",
-  projectId: "drnfeez-c4037",
-  storageBucket: "drnfeez-c4037.firebasestorage.app",
-  messagingSenderId: "912450814298",
-  appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
-};
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
 
 // Mapbox Configuration
-mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
+mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
 
 // Create Map
 const map = new mapboxgl.Map({
@@ -43,13 +36,14 @@ const geolocateControl = new mapboxgl.GeolocateControl({
 map.addControl(geolocateControl);
 
 // Authentication
-document.getElementById('loginBtn').addEventListener('click', async () => {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        alert(`مرحبًا، ${result.user.displayName}`);
-    } catch (error) {
-        console.error("Error during login:", error);
-    }
+document.getElementById('loginBtn').addEventListener('click', () => {
+    auth.signInWithPopup(provider)
+        .then(result => {
+            alert(`مرحبًا، ${result.user.displayName}`);
+        })
+        .catch(error => {
+            console.error("Error during login:", error);
+        });
 });
 
 // Handle "Request Service" button click
@@ -70,7 +64,7 @@ document.getElementById('requestService').addEventListener('click', async () => 
     };
 
     try {
-        const docRef = await addDoc(collection(db, "service_requests"), requestData);
+        const docRef = await db.collection("service_requests").add(requestData);
         alert(`تم طلب الصيانة بنجاح! معرّف الطلب: ${docRef.id}`);
     } catch (error) {
         console.error("Error saving request:", error);
