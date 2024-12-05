@@ -1,11 +1,13 @@
 // إعداد Firebase
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBMa1ZBBH6Xdi-MqqG4-B8z2oBtOzb3MfA",
+  authDomain: "drnfeez-c4037.firebaseapp.com",
+  databaseURL: "https://drnfeez-c4037-default-rtdb.firebaseio.com",
+  projectId: "drnfeez-c4037",
+  storageBucket: "drnfeez-c4037.firebasestorage.app",
+  messagingSenderId: "912450814298",
+  appId: "1:912450814298:web:2c1cd95abbda31e3a4b363"
+};
 };
 
 // تهيئة Firebase
