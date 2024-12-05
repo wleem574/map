@@ -13,8 +13,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // استدعاء خدمات Firebase
-const auth = firebase.auth();
-const db = firebase.firestore();
+const auth = firebase.auth(); // تم نقل هذا التعريف إلى هنا
+const db = firebase.firestore(); // تم نقل هذا التعريف إلى هنا
 
 // إعداد مزود تسجيل الدخول باستخدام Google
 const provider = new firebase.auth.GoogleAuthProvider();
