@@ -6,7 +6,7 @@
     <title>Car Maintenance App</title>
     <!-- Mapbox CSS -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-    <!-- رابط ملف CSS الخاص بك -->
+    <!-- رابط ملف CSS -->
     <link rel="stylesheet" href="https://raw.githubusercontent.com/wleem574/map/main/styles.css">
 </head>
 <body>
@@ -42,7 +42,65 @@
     </footer>
     <!-- Mapbox JavaScript -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-    <!-- رابط ملف JavaScript الخاص بك -->
-    <script src="https://raw.githubusercontent.com/wleem574/map/main/script.js"></script>
+    <!-- ملف JavaScript -->
+    <script type="module">
+        // إعداد Mapbox
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA'; // استبدل بمفتاح Mapbox الخاص بك
+
+        // تهيئة الخريطة
+        document.addEventListener('DOMContentLoaded', () => {
+            const map = new mapboxgl.Map({
+                container: 'map', // معرف العنصر HTML
+                style: 'mapbox://styles/mapbox/streets-v11', // نوع الخريطة
+                center: [54.3773, 24.4539], // إحداثيات الموقع الافتراضي (مثال: أبوظبي)
+                zoom: 10 // مستوى التكبير الافتراضي
+            });
+
+            // إضافة Marker لموقع العميل
+            const userMarker = new mapboxgl.Marker({ color: 'blue' })
+                .setLngLat([54.3773, 24.4539]) // إحداثيات العميل
+                .addTo(map);
+
+            // إضافة Marker لموقع الفني
+            const technicianMarker = new mapboxgl.Marker({ color: 'red' })
+                .setLngLat([54.3745, 24.4602]) // إحداثيات الفني
+                .addTo(map);
+
+            // التحكم في عرض الخريطة
+            map.on('load', () => {
+                console.log('Map Loaded!');
+            });
+        });
+
+        // تسجيل الدخول (مثال فقط، استبدل بمصادقة Firebase إذا كنت تستخدمها)
+        document.getElementById('login-btn').addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // تنفيذ عملية تسجيل دخول
+            if (email && password) {
+                alert(`Logged in as ${email}`);
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('service-section').style.display = 'block';
+            } else {
+                alert('Please enter valid email and password.');
+            }
+        });
+
+        // إرسال طلب الخدمة
+        document.getElementById('submit-request').addEventListener('click', () => {
+            const serviceType = document.getElementById('service-type').value;
+            const description = document.getElementById('problem-description').value;
+
+            if (!serviceType || !description) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // إرسال بيانات الطلب (كمثال فقط)
+            console.log(`Service Request Submitted: ${serviceType}, ${description}`);
+            alert("Service Request Submitted!");
+        });
+    </script>
 </body>
 </html>
