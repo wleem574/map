@@ -12,10 +12,10 @@ const firebaseConfig = {
 
 // تهيئة Firebase
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
 
+// استدعاء خدمات Firebase
+const auth = firebase.auth();
+const db = firebase.firestore();
 // إعداد Mapbox
 mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
 
