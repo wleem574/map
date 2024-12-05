@@ -48,14 +48,15 @@
         mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA'; // استبدل بمفتاح Mapbox الخاص بك
 
         // تهيئة الخريطة
-        document.addEventListener('DOMContentLoaded', () => {
-            const map = new mapboxgl.Map({
-                container: 'map', // معرف العنصر HTML
-                style: 'mapbox://styles/mapbox/streets-v11', // نوع الخريطة
-                center: [54.3773, 24.4539], // إحداثيات الموقع الافتراضي (مثال: أبوظبي)
-                zoom: 10 // مستوى التكبير الافتراضي
-            });
-
+       document.addEventListener('DOMContentLoaded', () => {
+    mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [54.3773, 24.4539], // إحداثيات افتراضية
+        zoom: 10
+    });
+});
             // إضافة Marker لموقع العميل
             const userMarker = new mapboxgl.Marker({ color: 'blue' })
                 .setLngLat([54.3773, 24.4539]) // إحداثيات العميل
