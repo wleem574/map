@@ -22,7 +22,7 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 // Mapbox Configuration
-mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
 
 // Create Map
 const map = new mapboxgl.Map({
