@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلب صيانة موقعية</title>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css">
+  <title>طلب صيانة موقعية</title>
+  <link rel="stylesheet" href="https://raw.githubusercontent.com/WLEEM574/map/main/style.css">
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>طلب صيانة عبر الخريطة</h1>
-    </header>
+  <div id="map"></div>
 
-    <div id="map"></div>
+  <div id="requestForm">
+    <h3>طلب صيانة</h3>
+    <label for="location">الموقع:</label>
+    <input type="text" id="location" readonly><br><br>
 
-    <div id="location-details">
-        <p id="location-info">حدد موقعك على الخريطة لطلب الصيانة</p>
-        <button id="send-request" onclick="sendRequest()">إرسال طلب الصيانة</button>
-    </div>
+    <label for="type">نوع الصيانة:</label>
+    <select id="type">
+      <option value="electricity">كهرباء</option>
+      <option value="plumbing">سباكة</option>
+      <option value="carpentry">نجارة</option>
+      <option value="other">أخرى</option>
+    </select><br><br>
 
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
-    <script src="app.js"></script>
+    <label for="description">الوصف:</label>
+    <textarea id="description"></textarea><br><br>
+
+    <button id="requestButton">إرسال طلب</button>
+  </div>
+
+<script src="https://raw.githubusercontent.com/wleem574/map/main/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
