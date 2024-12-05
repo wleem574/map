@@ -1,50 +1,73 @@
-// توكن Mapbox
-mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA';
+// تهيئة الخريطة
+var map = L.map('map').setView([33.3128, 44.3615], 13); //  بغداد كمثال
 
-const map = new mapboxgl.Map({
-    container: 'map', // id العنصر الذي سيحتوي على الخريطة
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [31.2357, 30.0444], // الإحداثيات الافتراضية (القاهرة)
-    zoom: 12
-});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-// إضافة نقطة للموقع الجغرافي الحالي
-let marker;
+//  متغير لتخزين علامة الموقع
+var marker;
 
-navigator.geolocation.getCurrentPosition(function(position) {
-    const userLng = position.coords.longitude;
-    const userLat = position.coords.latitude;
+//  دالة تحديث الموقع 
+function updateLocation(lat, lng) {
+  //  إزالة العلامة القديمة إن وجدت
+  if (marker) {
+    map.removeLayer(marker);
+  }
 
-    // مركز الخريطة على موقع المستخدم الحالي
-    map.setCenter([userLng, userLat]);
+  //  إضافة علامة جديدة
+  marker = L.marker([lat, lng]).addTo(map);
 
-    // إضافة مؤشر الموقع
-    marker = new mapboxgl.Marker()
-        .setLngLat([userLng, userLat])
-        .addTo(map);
-    
-    document.getElementById('location-info').innerText = `موقعك الحالي: ${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
-});
+  //  تحديث حقل الموقع في النموذج
+  document.getElementById("location").value = lat + ", " + lng;
 
-// إضافة خاصية السماح للمستخدم بتحديد مكان على الخريطة
-map.on('click', function(e) {
-    const coords = e.lngLat;
-    
-    if (marker) {
-        marker.setLngLat(coords); // تغيير موقع المؤشر
-    } else {
-        marker = new mapboxgl.Marker()
-            .setLngLat(coords)
-            .addTo(map);
-    }
-
-    document.getElementById('location-info').innerText = `موقع طلب الصيانة: ${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}`;
-});
-
-// وظيفة إرسال الطلب
-function sendRequest() {
-    const location = marker.getLngLat();
-    alert(`تم إرسال طلب الصيانة إلى الموقع: ${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`);
-    
-    // هنا يمكن إضافة الكود لإرسال الطلب إلى الخادم أو قاعدة البيانات.
+  //  تركيز الخريطة على الموقع الجديد
+  map.setView([lat, lng], 13);
 }
+
+//  الحصول على موقع المستخدم عند تحميل الصفحة
+map.locate({setView: true, maxZoom: 16});
+
+//  معالجة حدث تحديد الموقع
+map.on('locationfound', function(e) {
+  updateLocation(e.latitude, e.longitude);
+});
+
+//  معالجة حدث النقر على الخريطة لتحديد الموقع
+map.on('click', function(e) {
+  updateLocation(e.latlng.lat, e.latlng.lng);
+});
+
+
+//  دالة إرسال طلب الصيانة
+function sendRequest() {
+  var location = document.getElementById("location").value;
+  var type = document.getElementById("type").value;
+  var description = document.getElementById("description").value;
+
+  //  هنا يجب إرسال هذه البيانات إلى خادم  (مثال باستخدام  fetch API)
+  fetch('/send-request', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      location: location,
+      type: type,
+      description: description
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    //  معالجة الرد من الخادم  (مثال:  عرض رسالة نجاح)
+    alert(data.message); 
+  })
+  .catch(error => {
+    //  معالجة الأخطاء
+    console.error('Error:', error);
+    alert("حدث خطأ أثناء إرسال الطلب!");
+  });
+}
+
+//  إضافة مستمع حدث لزر إرسال الطلب
+document.getElementById("requestButton").addEventListener("click", sendRequest);
