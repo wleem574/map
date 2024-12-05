@@ -45,19 +45,30 @@ document.getElementById('submit-request').addEventListener('click', () => {
     }
 });
 
-// Google Maps Initialization
-let map;
-function initMap() {
-    const userLocation = { lat: -34.397, lng: 150.644 }; // Default location
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: userLocation,
-        zoom: 10,
+// إعداد Mapbox
+mapboxgl.accessToken = 'pk.eyJ1Ijoid2xlZW01NzQiLCJhIjoiY200OWd1MTllMDlsZDJycjZiMjd3enRoMyJ9.gXzkkWVGxyct5EtwDnZ1NA'; // ضع مفتاح Mapbox API الخاص بك هنا
+
+// تهيئة الخريطة
+document.addEventListener('DOMContentLoaded', () => {
+    const map = new mapboxgl.Map({
+        container: 'map', // معرف العنصر HTML
+        style: 'mapbox://styles/mapbox/streets-v11', // نوع الخريطة
+        center: [54.3773, 24.4539], // إحداثيات الموقع الافتراضي (أبوظبي كمثال)
+        zoom: 10 // مستوى التكبير الافتراضي
     });
 
-    // Marker for Technician (Example)
-    const technicianMarker = new google.maps.Marker({
-        position: { lat: -34.5, lng: 150.7 },
-        map: map,
-        title: "Technician Location",
+    // إضافة Marker لموقع العميل
+    const userMarker = new mapboxgl.Marker({ color: 'blue' })
+        .setLngLat([54.3773, 24.4539]) // إحداثيات العميل
+        .addTo(map);
+
+    // إضافة Marker لموقع الفني
+    const technicianMarker = new mapboxgl.Marker({ color: 'red' })
+        .setLngLat([54.3745, 24.4602]) // إحداثيات الفني
+        .addTo(map);
+
+    // التحكم في عرض الخريطة
+    map.on('load', () => {
+        console.log('Map Loaded!');
     });
-}
+});
